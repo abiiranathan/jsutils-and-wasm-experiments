@@ -1,0 +1,16 @@
+{
+  "name": "jsutils",
+  "module": "src/index.ts",
+  "type": "module",
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "scripts": {
+    "build": "bun build ./src/index.ts --watch --outdir ./build --minify-whitespace --minify-syntax && bun run build:declaration",
+    "build:declaration": "tsc --emitDeclarationOnly --noEmit false",
+    "test": "jest"
+  }
+}

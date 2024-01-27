@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/modal.css" />
+    <link rel="stylesheet" href="./css/menubtn.css" />
+    <link rel="stylesheet" href="./css/table.css" />
+    <style>
+      body {
+        font-family: sans-serif;
+        padding: 2rem;
+        font-size: 14px;
+      }
+
+      .btn {
+        padding: 0.25rem 0.75rem;
+        border-radius: 0.5rem;
+        border: 1px solid #eee;
+        outline: none;
+        cursor: pointer;
+        background-color: #f8f8f8;
+        color: #333;
+      }
+
+      button:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+    </style>
+  </head>
+  <body>
+    <textarea name="name" id="name" cols="30" rows="5">
+Hello 
+My name is Abiira Nathan
+I really love you!
+
+
+How is life treating you over there.
+
+I really like you.</textarea
+    >
+    <select name="select" id="select" value="debt">
+      <option value="cash">Cash</option>
+      <option value="insurance">Insurance</option>
+      <option value="debt">Debt</option>
+    </select>
+
+    <form action="" method="post">
+      <input type="text" name="name" id="name" />
+      <button type="submit">Submit</button>
+    </form>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Age</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Abiira</td>
+          <td>20</td>
+        </tr>
+        <tr>
+          <td>Nathan</td>
+          <td>20</td>
+        </tr>
+        <tr>
+          <td>Abiira</td>
+          <td>20</td>
+        </tr>
+        <tr>
+          <td>Nathan</td>
+          <td>20</td>
+        </tr>
+        <tr>
+          <td>Abiira</td>
+          <td>20</td>
+        </tr>
+        <tr>
+          <td>Nathan</td>
+          <td>20</td>
+        </tr>
+        <tr>
+          <td>Abiira</td>
+          <td>20</td>
+        </tr>
+        <tr>
+          <td>Nathan</td>
+          <td>20</td>
+        </tr>
+        <tr>
+          <td>Abiira</td>
+          <td>20</td>
+        </tr>
+        <tr>
+          <td>Nathan</td>
+          <td>20</td>
+        </tr>
+        <tr>
+          <td>Abiira</td>
+          <td>20</td>
+        </tr>
+        <tr>
+          <td>Nathan</td>
+          <td>20</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Menu button -->
+    <div class="menu-button-wrapper">
+      <button class="menu-button">Menu</button>
+      <ul class="menu-button-menu">
+        <li>Home</li>
+        <li>About</li>
+        <li>Contact</li>
+      </ul>
+    </div>
+
+    <div id="video-container">
+      <video class="video1" width="600" height="auto" controls></video>
+      <div>
+        <button id="capture">CAPTURE SCREENSHOT</button>
+      </div>
+    </div>
+
+    <div id="video-container2">
+      <video class="video2" width="600" height="auto" controls></video>
+      <div>
+        <button id="capture2">CAPTURE DESKTOP</button>
+      </div>
+    </div>
+
+    <!--  -->
+    <script type="module" lang="ts">
+      import {
+        autoResizeTextarea,
+        speak,
+        setDefaultSelectOptions,
+        onClickOutside,
+        setCookie,
+        createModal,
+        closeModal,
+        throttle,
+        debounce,
+        safeFormSubmit,
+        paginateTable,
+      } from "./build/index.js";
+
+      const textarea = document.querySelector("#name");
+      autoResizeTextarea(textarea);
+      speak(textarea.textContent);
+
+      setDefaultSelectOptions();
+      onClickOutside(textarea, (e) => {
+        console.log(e);
+        console.log("You clicked outside textarea");
+      });
+
+      const opts = {
+        expires: 100 * 24 * 60 * 60, // 100 days in seconds
+        path: "/",
+        domain: "localhost",
+        secure: false,
+        sameSite: "strict",
+      };
+      setCookie("name", "Abiira", opts);
+
+      // const modal = createModal({
+      //   title: "Hello",
+      //   content: document.querySelector("#name"),
+      //   buttons: [
+      //     {
+      //       text: "Ok",
+      //       onClick: () => {
+      //         console.log("Ok");
+      //       },
+      //     },
+      //     {
+      //       text: "Cancel",
+      //       onClick: () => {
+      //         console.log("Cancel");
+      //         closeModal(modal);
+      //       },
+      //     },
+      //   ],
+      // });
+
+      // use throttle
+      textarea.addEventListener(
+        "input",
+        throttle((e) => {
+          console.log(e.target.value);
+        }, 1000)
+      );
+
+      // use debounce
+      textarea.addEventListener(
+        "input",
+        debounce((e) => {
+          console.log(e.target.value);
+        }, 1000)
+      );
+
+      safeFormSubmit(document.querySelectorAll("form"));
+
+      paginateTable(document.querySelector(".table"), {
+        rowsPerPage: 5,
+        buttonClassName: "btn btn-primary",
+      });
+    </script>
+
+    <img src="./gradient.jpg" alt="" width="10" height="10" />
+
+    <script type="module">
+      import {
+        importWasmModule,
+        getMediaStream,
+        renderMediaStream,
+        captureScreenshot,
+        getDisplayMedia,
+      } from "./build/index.js";
+
+      const importObject = {
+        env: {
+          abort(_msg, _file, line, column) {
+            console.error("abort called at index.ts:" + line + ":" + column);
+          },
+          logPixelValues(x, y, r, g, b) {
+            console.log(`Pixel at (${x}, ${y}) = RGB(${r}, ${g}, ${b})`);
+          },
+          log: console.log,
+        },
+      };
+
+      // importWasmModule("./math.wasm", importObject).then(
+      //   ({ exports, module }) => {
+      //     window.exports = exports;
+
+      //     console.log(exports);
+      //     console.log(exports.add(10, 20));
+      //     console.log(exports.mul(10, 20));
+
+      //     // create a canvas
+      //     const img = document.querySelector("img");
+      //     const canvas = document.createElement("canvas");
+      //     canvas.width = img.width;
+      //     canvas.height = img.height;
+      //     const [width, height] = [canvas.width, canvas.height];
+
+      //     // get the context
+      //     const ctx = canvas.getContext("2d");
+
+      //     // draw the image
+      //     ctx.drawImage(img, 0, 0, width, height);
+
+      //     const imageData = ctx.getImageData(0, 0, width, height);
+      //     const src = imageData.data;
+      //     exports.sepia_filter(width, height, src);
+      //   }
+      // );
+
+      // const video = document.querySelector(".video1");
+      // const video2 = document.querySelector(".video2");
+
+      // getMediaStream()
+      //   .then((stream) => {
+      //     console.log(stream);
+      //     renderMediaStream(stream, video);
+      //   })
+      //   .catch((err) => {
+      //     console.error(err);
+      //   });
+
+      // const capture = document.getElementById("capture");
+      // capture.addEventListener("click", () => {
+      //   captureScreenshot(video, {
+      //     filename: "screenshot.png",
+      //     download: true,
+      //   });
+      // });
+
+      // getDisplayMedia().then((stream) => {
+      //   console.log(stream);
+      //   renderMediaStream(stream, video2);
+      // });
+      // // capture desktop
+
+      // const capture2 = document.getElementById("capture2");
+      // capture2.addEventListener("click", () => {
+      //   captureScreenshot(video2, {
+      //     filename: "desktop.png",
+      //     download: true,
+      //   });
+      // });
+    </script>
+
+    <script src="math.js"></script>
+  </body>
+</html>
